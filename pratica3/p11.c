@@ -1,4 +1,5 @@
-/*P11) Crie um programa que dado uma string, coloque as letras dela em ordem crescente
+/*P11) Crie um programa que dado uma string, coloque as 
+letras dela em ordem crescente
 pelo algoritmo bubble sort.*/
 #include <stdio.h>
 #include <string.h>
