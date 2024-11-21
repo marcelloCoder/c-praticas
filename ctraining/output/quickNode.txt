@@ -1,0 +1,3 @@
+Vetor de Inteiros - Comparações: 0, Cópias: 0, Tempo: 0.000000 segundos
+Lista Duplamente Encadeada - Comparações: 0, Cópias: 0, Tempo: 0.000000 segundos
+Vetor de Registros - Comparações: 0, Cópias: 0, Tempo: 0.000000 segundos

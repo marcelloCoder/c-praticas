@@ -1,0 +1,5 @@
+QuickSort - Lista Duplamente Encadeada:
+Comparações: 34656108
+Cópias: 13291260
+Tempo de execução: 0.078000 segundos
+
