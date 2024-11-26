@@ -1,25 +1,36 @@
-#include <sys/time.h>
-#include <sys/resource.h>
-#include <unistd.h>
+#include <windows.h>
 #include <stdio.h>
 
-int main() {
-  struct rusage usage;
-  struct timeval start, end;
-  int i, j, k = 0;
+double tempoCPU() {
+    FILETIME creationTime, exitTime, kernelTime, userTime;
 
-  getrusage(RUSAGE_SELF, &usage);
-  start = usage.ru_stime;
-  for (i = 0; i < 10000; i++) {
-    /* Double loop for more interesting results. */
-    for (j = 0; j < 10000; j++) {
-      k += 20; 
+    // Obtém os tempos de CPU do processo atual
+    if (GetProcessTimes(GetCurrentProcess(), &creationTime, &exitTime, &kernelTime, &userTime)) {
+        ULARGE_INTEGER kTime, uTime;
+
+        // Converte FILETIME para um número de 64 bits
+        kTime.LowPart = kernelTime.dwLowDateTime;
+        kTime.HighPart = kernelTime.dwHighDateTime;
+
+        uTime.LowPart = userTime.dwLowDateTime;
+        uTime.HighPart = userTime.dwHighDateTime;
+
+        // Retorna o tempo total em segundos
+        return (kTime.QuadPart + uTime.QuadPart) / 1e7; // FILETIME é em unidades de 100 nanossegundos
     }
-  }
-  getrusage(RUSAGE_SELF, &usage);
-  end = usage.ru_stime;
 
-  printf("Started at: %ld.%lds\n", start.tv_sec, start.tv_usec);
-  printf("Ended at: %ld.%lds\n", end.tv_sec, end.tv_usec);
-  return 0;
+    return -1; // Em caso de erro
+}
+
+int main() {
+    for (volatile long i = 0; i < 1e8; i++);
+
+    double tempo_total = tempoCPU();
+    if (tempo_total != -1) {
+        printf("Tempo total de CPU (usuário + sistema): %.6f segundos\n", tempo_total);
+    } else {
+        printf("Erro ao obter o tempo de CPU.\n");
+    }
+
+    return 0;
 }

@@ -1,0 +1,6 @@
+QuickSort - Performance COM Lista Duplamente Encadeada:
+COMPARACOES: 9987
+COPIAS: 7269
+TEMPO DE EXECUCAO: 0.000000 segundos
+
+Ttempo usuario: 51 milissegundos

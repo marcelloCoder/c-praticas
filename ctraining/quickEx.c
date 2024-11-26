@@ -29,20 +29,20 @@ long comparacoes = 0;
 long copias = 0;
 
 // Função para medir tempo de execução
-// Função para medir o tempo de execução em segundos
 double tempoExecucao()
 {
     return (double)clock() / CLOCKS_PER_SEC;
 }
 
+// Criar lista (inicializar um nó de uma lista duplamente encadeada)
 Node *criarNode(int chave)
 {
-    Node *novo = (Node *)malloc(sizeof(Node));
+    Node *novo = (Node *)malloc(sizeof(Node)); // aloca memoria 
     if (novo)
     {
-        novo->chave = chave;
-        novo->anterior = NULL;
-        novo->proximo = NULL;
+        novo->chave = chave; // Armazena a chave fornecida no campo de dados do nó.
+        novo->anterior = NULL;//Define o ponteiro para o nó anterior como NULL, já que o nó ainda não está conectado a outro nó.
+        novo->proximo = NULL;//Define o ponteiro para o próximo nó como NULL.
         return novo;
     }else{
         printf("Erro ao alocar memória\n");
@@ -62,6 +62,7 @@ void inserirFim(Node **cabeca, int chave)
     Node *atual = *cabeca; //Caso contrário, percorre a lista até encontrar o último nó.
     while (atual->proximo != NULL)
     {
+        printf("\nPERCORRENDO lista");
         atual = atual->proximo;//Caso contrário, percorre a lista até encontrar o último nó.
     }
     atual->proximo = novo;
@@ -81,18 +82,26 @@ void imprimirLista(Node *cabeca)
 }
 
 // Função para gerar registros aleatórios
+/*preencher um array de estruturas Registro com dados aleatórios.*/
 void geraRegistrosRandom(Registro *registros, int N)
 {
     for (int i = 0; i < N; i++)
     {
-        registros[i].chave = rand() % 1000000;
+        printf("\nGERANDO NUMEROS ALEATORIOS N");
+        registros[i].chave = rand() % 1000000;//A chave de cada registro é um número aleatório entre 0 e 999999, gerado usando rand().
         for (int j = 0; j < STRING_CONTADOR; j++)
         {
+            printf("\nGERANDO NUMEROS ALEATORIOS 200");
             snprintf(registros[i].strings[j], STRING_TAMANHO, "String%d", rand() % 100);
+            /*snprintf:
+            Gera uma string no formato "StringX", onde X é um número aleatório entre 0 e 99.
+            A string gerada é armazenada em registros[i].strings[j].
+            Garante que a string gerada não ultrapasse o tamanho definido por STRING_TAMANHO.*/
         }
-        registros[i].booleano = rand() % 2;
+        registros[i].booleano = rand() % 2; //Gera um valor aleatório (0 ou 1), simulando um booleano.
         for (int k = 0; k < 4; k++)
         {
+            //Itera 4 vezes, preenchendo o array valores com números float.
             registros[i].valores[k] = (float)(rand() % 10000) / 100.0;
         }
     }
@@ -107,13 +116,16 @@ int particiona(int *vetor, int inicio, int fim)
 
     while (esquerda <= direita)
     {
+        printf("\nQUICKSORT");
         while (esquerda <= fim && vetor[esquerda] <= pivo)
         {
+            printf("\nQUICKSORTcomp");
             comparacoes++;
             esquerda++;
         }
         while (direita > inicio && vetor[direita] > pivo)
         {
+            printf("\nQUICKSORTcomp");
             comparacoes++;
             direita--;
         }
@@ -147,6 +159,10 @@ void quicksort(int *vetor, int inicio, int fim)
 // Função principal
 int main(int argc, char *argv[])
 {
+
+    clock_t inicio2, fim2; // Declaração das variáveis
+    unsigned long int tempo2; // Armazena o tempo total em milissegundos
+    inicio2 = clock(); // Captura o tempo inicial em ticks de clock
     if (argc != 3)
     {
         printf("Uso: %s <N> <arquivo_saida>\n", argv[0]);
@@ -169,8 +185,10 @@ int main(int argc, char *argv[])
     Node *lista = NULL; // inicia a lista NULL indicando que a lista está vazia.
     for (int i = 0; i < N; i++)
     {                                         // executa N interações
-        inserirFim(&lista, rand() % 1000000); // Insere o número gerado no final da lista duplamente encadeada.
+        inserirFim(&lista, rand() % 1000000); // Insere o número de CHAVES gerado no final da lista duplamente encadeada.
         // Gera um número aleatório entre 0 e 999999.
+        //Cada nó da lista contém um número inteiro (chave).
+        printf("\nGERANDO LISTA");
     }
 
     printf("Lista original:\n");
@@ -178,13 +196,18 @@ int main(int argc, char *argv[])
     // Métricas
     comparacoes = 0;
     copias = 0;
+    
     double inicio = tempoExecucao();
+    
 
     // Ordenar lista (conversão para vetor)
+    //Os números da lista encadeada são copiados para um vetor
+    // dinâmico de tamanho N
     int *vetor = malloc(N * sizeof(int));
     Node *atual = lista;
     for (int i = 0; i < N; i++)
     {
+        printf("\n COPIANDO PARA VETOR");
         vetor[i] = atual->chave;
         atual = atual->proximo;
     }
@@ -193,14 +216,20 @@ int main(int argc, char *argv[])
 
     // Reconstruir lista
     atual = lista;
+    
     for (int i = 0; i < N; i++)
     {
+        printf("\nRECONSTRUCAO LISTA");
         atual->chave = vetor[i];
         atual = atual->proximo;
+        /*Reconstrução da lista a partir do vetor ordenado
+    após a ordenação, o vetor é usado para atualizar os 
+    valores armazenados na lista*/
     }
     free(vetor);
 
     double fim = tempoExecucao();
+    fim2 = clock(); // Captura o tempo final em ticks de clock
 
     printf("Lista ordenada:\n");
     imprimirLista(lista);
@@ -209,10 +238,13 @@ int main(int argc, char *argv[])
     Registro *registros = malloc(N * sizeof(Registro));
     geraRegistrosRandom(registros, N);
 
+    tempo2 = (unsigned long int)((fim2 - inicio2) * 1000 / CLOCKS_PER_SEC);
+
     fprintf(saida, "QuickSort - Performance COM Lista Duplamente Encadeada:\n");
-    fprintf(saida, "Comparações: %ld\n", comparacoes);
-    fprintf(saida, "Cópias: %ld\n", copias);
-    fprintf(saida, "Tempo de execução: %f segundos\n\n", fim - inicio);
+    fprintf(saida, "COMPARACOES: %ld\n", comparacoes);
+    fprintf(saida, "COPIAS: %ld\n", copias);
+    fprintf(saida, "TEMPO DE EXECUCAO: %f segundos\n\n", fim - inicio);
+    fprintf(saida, "Ttempo usuario: %lu milissegundos\n", tempo2);
 
     // Liberar memória
     while (lista != NULL)
@@ -228,7 +260,7 @@ int main(int argc, char *argv[])
     /*
     ./quickEx 10000 saida10000k.txt
     ./quickEx 100000 saida100000k.txt
-    ./quickEx 1000000 saida10k.txt
-    ./quickEx 10000000 saida10k.txt
+    ./quickEx 1000000 saida1000000k.txt
+    ./quickEx 10000000 saida10000000k.txt
     */
 }
