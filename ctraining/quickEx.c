@@ -62,7 +62,7 @@ void inserirFim(Node **cabeca, int chave)
     Node *atual = *cabeca; //Caso contrário, percorre a lista até encontrar o último nó.
     while (atual->proximo != NULL)
     {
-        printf("\nPERCORRENDO lista");
+    
         atual = atual->proximo;//Caso contrário, percorre a lista até encontrar o último nó.
     }
     atual->proximo = novo;
@@ -87,11 +87,11 @@ void geraRegistrosRandom(Registro *registros, int N)
 {
     for (int i = 0; i < N; i++)
     {
-        printf("\nGERANDO NUMEROS ALEATORIOS N");
+       
         registros[i].chave = rand() % 1000000;//A chave de cada registro é um número aleatório entre 0 e 999999, gerado usando rand().
         for (int j = 0; j < STRING_CONTADOR; j++)
         {
-            printf("\nGERANDO NUMEROS ALEATORIOS 200");
+            
             snprintf(registros[i].strings[j], STRING_TAMANHO, "String%d", rand() % 100);
             /*snprintf:
             Gera uma string no formato "StringX", onde X é um número aleatório entre 0 e 99.
@@ -116,16 +116,16 @@ int particiona(int *vetor, int inicio, int fim)
 
     while (esquerda <= direita)
     {
-        printf("\nQUICKSORT");
+       
         while (esquerda <= fim && vetor[esquerda] <= pivo)
         {
-            printf("\nQUICKSORTcomp");
+          
             comparacoes++;
             esquerda++;
         }
         while (direita > inicio && vetor[direita] > pivo)
         {
-            printf("\nQUICKSORTcomp");
+           
             comparacoes++;
             direita--;
         }
@@ -188,7 +188,7 @@ int main(int argc, char *argv[])
         inserirFim(&lista, rand() % 1000000); // Insere o número de CHAVES gerado no final da lista duplamente encadeada.
         // Gera um número aleatório entre 0 e 999999.
         //Cada nó da lista contém um número inteiro (chave).
-        printf("\nGERANDO LISTA");
+        
     }
 
     printf("Lista original:\n");
@@ -207,7 +207,6 @@ int main(int argc, char *argv[])
     Node *atual = lista;
     for (int i = 0; i < N; i++)
     {
-        printf("\n COPIANDO PARA VETOR");
         vetor[i] = atual->chave;
         atual = atual->proximo;
     }
@@ -217,9 +216,10 @@ int main(int argc, char *argv[])
     // Reconstruir lista
     atual = lista;
     
+    
     for (int i = 0; i < N; i++)
     {
-        printf("\nRECONSTRUCAO LISTA");
+       
         atual->chave = vetor[i];
         atual = atual->proximo;
         /*Reconstrução da lista a partir do vetor ordenado

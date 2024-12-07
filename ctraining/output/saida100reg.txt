@@ -1,0 +1,14 @@
+Vetor de Inteiros:
+Comparacoes: 10348
+Copias: 7251
+Tempo: 0.000000 segundos
+
+Lista Encadeada:
+Comparacoes: 10341
+Copias: 7233
+Tempo: 0.000000 segundos
+
+Vetor de Registros:
+Comparacoes: 11100
+Copias: 2362
+Tempo: 0.000000 segundos
