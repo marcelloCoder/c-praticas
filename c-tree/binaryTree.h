@@ -9,3 +9,5 @@ int estaVaziaArvBin(ArvBin* raiz);
 int alturaArvBin(ArvBin* raiz);
 
 int totalNOArvBin(ArvBin* raiz);
+
+void preOrdemArvBin(ArvBin *raiz);

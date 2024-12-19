@@ -88,6 +88,21 @@ int totalNOArvBin(ArvBin* raiz){
     return(altEsq  + altDir + 1);
 }
 
+void preOrdemArvBin(ArvBin *raiz){
+    if (raiz == NULL)
+    {
+        return;
+    }
+    if (*raiz != NULL)
+    {
+        printf("%d\n", (*raiz)->info);
+        preOrdemArvBin(&((*raiz)->esq));
+        preOrdemArvBin(&((*raiz)->dir));
+    }
+    
+    
+}
+
 
 int main(int argc, char const *argv[])
 {
@@ -104,6 +119,8 @@ int main(int argc, char const *argv[])
 
     int y = alturaArvBin(raiz);
     int z = totalNOArvBin(raiz);
+
+    preOrdemArvBin(raiz);
 
     return 0;
 }
