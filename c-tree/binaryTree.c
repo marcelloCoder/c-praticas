@@ -5,8 +5,8 @@
 typedef struct NO
 {
     int info;
-    NO *esq;
-    NO* dir;
+    struct NO *esq;
+    struct NO* dir;
 }NO;
 
 
@@ -35,7 +35,7 @@ void liberaNO(NO* no){
 void liberaArvBin(ArvBin* raiz){
     if (raiz == NULL)
     {
-        return
+        return;
     }
     liberaNO(*raiz);
     free(raiz);
@@ -75,10 +75,22 @@ int alturaArvBin(ArvBin* raiz){
     
 }
 
+int totalNOArvBin(ArvBin* raiz){
+    if(raiz == NULL){
+        return 0;
+    }
+    if (*raiz ==NULL)
+    {
+        return 0;
+    }
+    int altEsq = totalNOArvBin(&((*raiz)->esq));
+    int altDir = totalNOArvBin(&((*raiz)->dir));
+    return(altEsq  + altDir + 1);
+}
+
 
 int main(int argc, char const *argv[])
 {
-    ArvBin* raiz;
 
     ArvBin* raiz = criarArvBin();
 
@@ -91,6 +103,7 @@ int main(int argc, char const *argv[])
     }
 
     int y = alturaArvBin(raiz);
+    int z = totalNOArvBin(raiz);
 
     return 0;
 }
