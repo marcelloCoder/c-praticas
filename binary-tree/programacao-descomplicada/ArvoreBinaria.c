@@ -66,6 +66,39 @@ int totalNOArvoreBinaria(ArvoreBinaria* raiz) {
     return totalEsq + totalDir + 1;
 }
 
+void preOrdemArvoreBinaria(ArvoreBinaria* raiz) {
+    if(raiz == NULL || *raiz == NULL){
+        return;
+    }
+    if(*raiz == NULL){
+        printf("%d ", (*raiz)->info);
+        preOrdemArvoreBinaria(&((*raiz)->esq));
+        preOrdemArvoreBinaria(&((*raiz)->dir));;
+    }
+}
+
+void emOrdemArvoreBinaria(ArvoreBinaria* raiz) {
+    if(raiz == NULL || *raiz == NULL){
+        return;
+    }
+    if(*raiz != NULL){
+        emOrdemArvoreBinaria(&((*raiz)->esq));
+        printf("%d ", (*raiz)->info);
+        emOrdemArvoreBinaria(&((*raiz)->dir));;
+    }
+}
+
+void posOrdemArvoreBinaria(ArvoreBinaria* raiz) {
+    if(raiz == NULL || *raiz == NULL){
+        return;
+    }
+    if(*raiz != NULL){
+        posOrdemArvoreBinaria(&((*raiz)->esq));
+        posOrdemArvoreBinaria(&((*raiz)->dir));;
+        printf("%d ", (*raiz)->info);
+    }
+}
+
 int main() {
     ArvoreBinaria* raiz;
     *raiz = criaArvoreBinaria();
@@ -81,6 +114,15 @@ int main() {
     printf("Altura da arvore: %d\n", x);
     x = totalNOArvoreBinaria(raiz);
     printf("Total de nos na arvore: %d\n", x);
+    preOrdemArvoreBinaria(raiz);
+    printf("\n");
+    printf("Pre ordem: %d\n", raiz);
+    emOrdemArvoreBinaria(raiz);
+    printf("\n");
+    printf("Em ordem: %d\n", raiz);
+    posOrdemArvoreBinaria(raiz);
+    printf("\n");
+    printf("Pos ordem: %d\n", raiz);
 
     return 0;
 }

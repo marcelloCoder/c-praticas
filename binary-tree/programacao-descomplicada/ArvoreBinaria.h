@@ -9,3 +9,9 @@ int estaVaziaArvoreBinaria(ArvoreBinaria* raiz);
 int alturaArvoreBinaria(ArvoreBinaria* raiz);
 
 int totalNOArvoreBinaria(ArvoreBinaria* raiz);
+
+void preOrdemArvoreBinaria(ArvoreBinaria* raiz);
+
+void emOrdemArvoreBinaria(ArvoreBinaria* raiz);
+
+void posOrdemArvoreBinaria(ArvoreBinaria* raiz);
