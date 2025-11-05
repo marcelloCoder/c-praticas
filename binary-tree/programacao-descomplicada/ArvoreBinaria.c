@@ -99,9 +99,46 @@ void posOrdemArvoreBinaria(ArvoreBinaria* raiz) {
     }
 }
 
+int insereArvoreBinaria(ArvoreBinaria* raiz, int valor) {
+    if(raiz == NULL){
+        return 0;
+    }
+    struct NO* novoNo = (struct NO*)malloc(sizeof(struct NO));
+    if(novoNo == NULL){
+        return 0;
+    }
+    novoNo->info = valor;
+    novoNo->esq = NULL;
+    novoNo->dir = NULL;
+
+    if (*raiz == NULL){
+        *raiz = novo;
+    }else{
+        struct NO* atual = *raiz;
+        struct NO* anterior = NULL;
+        while (atual != NULL){
+            anterior = atual;
+            if(valor == atual->info){
+                free(novo);
+                return 0; 
+            }
+            if(valor > atual->info){
+                atual = atual->dir;
+            }else{
+                atual = atual->esq;
+            }
+        }
+        if(valor > anterior->info){
+            anterior->dir = novo;
+        }else{
+            anterior->esq = novo;
+        }
+    }
+    return 1;
+}
+
 int main() {
-    ArvoreBinaria* raiz;
-    *raiz = criaArvoreBinaria();
+    ArvoreBinaria* raiz = criaArvoreBinaria();
     liberaArvoreBinaria(raiz);
     int x = estaVaziaArvoreBinaria(raiz);
     if(estaVaziaArvoreBinaria(raiz)){
@@ -123,6 +160,8 @@ int main() {
     posOrdemArvoreBinaria(raiz);
     printf("\n");
     printf("Pos ordem: %d\n", raiz);
+
+    x = insereArvoreBinaria(raiz, 10);
 
     return 0;
 }
