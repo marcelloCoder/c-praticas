@@ -8,6 +8,28 @@ struct NO {
     struct NO* dir;
 };
 
+struct NO* removeAtual(struct NO* atual){
+    struct NO *no1, *no2;
+    if(atual->esq == NULL){
+        no2 = atual->dir;
+        free(atual);
+        return no2;
+    }
+    no1 = atual;
+    no2 = atual->esq;
+    while(no2->dir != NULL){
+        no1 = no2;
+        no2 = no2->dir;
+    }
+    if(no1 != atual){
+        no1->dir = no2->esq;
+        no2->esq = atual->esq;
+    }
+    no2->dir = atual->dir;
+    free(atual);
+    return no2;
+}
+
 ArvoreBinaria* criaArvoreBinaria() {
     ArvoreBinaria* raiz = (ArvoreBinaria*)malloc(sizeof(ArvoreBinaria));
     if(raiz != NULL){
@@ -137,6 +159,32 @@ int insereArvoreBinaria(ArvoreBinaria* raiz, int valor) {
     return 1;
 }
 
+int removeArvoreBinaria(ArvoreBinaria *raiz, int valor){
+    if(raiz == NULL) return 0;
+    struct NO* anterior = NULL;
+    struct NO* atual = *raiz;
+    while(atual != NULL){
+        if(valor == atual->info){
+            if(atual == *raiz){
+                *raiz = removeAtual(atual);
+            }else{
+                if(anterior->dir == atual){
+                    anterior->dir = removeAtual(atual);
+                }else{
+                    anterior->esq = removeAtual(atual);
+                }
+            }
+            return 1;
+        }
+        anterior = atual;
+        if(valor > atual->info){
+            atual = atual->dir;
+        }else{
+            atual = atual->esq;
+        }
+    }
+}
+
 int main() {
     ArvoreBinaria* raiz = criaArvoreBinaria();
     liberaArvoreBinaria(raiz);
@@ -162,6 +210,7 @@ int main() {
     printf("Pos ordem: %d\n", raiz);
 
     x = insereArvoreBinaria(raiz, 10);
+    x = removeArvoreBinaria(raiz, 10);
 
     return 0;
 }

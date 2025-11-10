@@ -17,3 +17,5 @@ void emOrdemArvoreBinaria(ArvoreBinaria* raiz);
 void posOrdemArvoreBinaria(ArvoreBinaria* raiz);
 
 int insereArvoreBinaria(ArvoreBinaria* raiz, int valor);
+
+int removeArvoreBinaria(ArvoreBinaria *raiz, int valor);
