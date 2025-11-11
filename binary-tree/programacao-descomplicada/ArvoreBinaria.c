@@ -185,6 +185,24 @@ int removeArvoreBinaria(ArvoreBinaria *raiz, int valor){
     }
 }
 
+int consultaArvoreBinaria(ArvoreBinaria *raiz, int valor){
+    if(raiz == NULL){
+        return 0;
+    }
+    struct NO* atual = raiz;
+    while(atual != NULL){
+        if(valor == atual->info){
+            return 1;
+        }
+        if(valor > atual->info){
+            atual = atual->dir;
+        }else{
+            atual = atual->esq;
+        }
+    }
+    return 0; 
+}
+
 int main() {
     ArvoreBinaria* raiz = criaArvoreBinaria();
     liberaArvoreBinaria(raiz);
@@ -211,6 +229,7 @@ int main() {
 
     x = insereArvoreBinaria(raiz, 10);
     x = removeArvoreBinaria(raiz, 10);
+    x = consultaArvoreBinaria(raiz,10);
 
     return 0;
 }
