@@ -18,6 +18,7 @@ int alturaNO(struct NO* no){
 
 int fatorBalanceamentoNO(struct NO* no){
     return labs(alturaNO(no->esq) - alturaNO(no->dir));
+    // labs garante que o resultado será sempre positivo, ou seja, o valor absoluto da diferença.
 } 
 
 void rotacaoLL(ArvoreAVL *raiz){
@@ -64,6 +65,54 @@ int maior(int x, int y){
     }
 }
 
+int insereArvoreAVL(ArvoreAVL *raiz, int valor){
+    int res;
+    if(*raiz == NULL){
+        struct NO *novo;
+        novo = (struct NO*)malloc(sizeof(struct NO));
+        if(novo == NULL){
+            return 0;
+        }
+        novo->info = valor;
+        novo->altura = 0;
+        novo->esq = NULL;
+        novo->dir = NULL;
+        *raiz = novo;
+        return 1;
+    }
+    struct NO *atual = *raiz;
+    if(valor < atual->info){
+        if((res = insereArvoreAVL(&(atual->esq), valor)) == 1){
+            if(fatorBalanceamentoNO(atual) >= 2){
+                if(valor < (*raiz)->esq->info){
+                    rotacaoLL(raiz);
+                }else{
+                    rotacaoLR(raiz);
+                }
+            }
+        }
+    }else{
+        if(valor > atual->info){
+            if((res = insereArvoreAVL(&(atual->dir), valor)) == 1){
+                if(fatorBalanceamentoNO(atual) >= 2){
+                    if((*raiz)->dir->info < valor){
+                        rotacaoRR(raiz);
+                    }else{
+                        rotacaoRL(raiz);
+                    }
+                }
+            }
+        }else{
+            printf("Valor duplicado \n");
+            return 0;
+        }
+    }
+    atual->altura = maior(alturaNO(atual->esq), 
+                        alturaNO(atual->dir)) + 1;
+    return res;
+}
+
 int main(){
     ArvoreAVL* raiz;
+    int x = insereArvoreAVL(raiz,valor);
 }
