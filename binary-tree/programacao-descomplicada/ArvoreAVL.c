@@ -9,6 +9,8 @@ struct NO {
     struct NO* dir;
 };
 
+
+
 int alturaNO(struct NO* no){
     if(no == NULL){
         return -1;
@@ -112,7 +114,106 @@ int insereArvoreAVL(ArvoreAVL *raiz, int valor){
     return res;
 }
 
+int removeArvoreAVL(ArvoreAVL *raiz, int valor){
+    if(*raiz == NULL){
+        printf("Valor não existe!!");
+        return 0;
+    }
+    int res;
+    if(valor < (*raiz)->info){
+        if((res=removeArvoreAVL(&(*raiz)->esq,valor))==1){
+            if(fatorBalanceamentoNO(*raiz) >= 2){
+                if(alturaNO((*raiz)->dir->esq) <= alturaNO((*raiz)->dir->dir)){
+                    rotacaoRR(raiz);
+                }else{
+                    rotacaoRL(raiz);
+                }
+            }
+        }
+    }
+    if((*raiz)->info < valor){
+        if((res=removeArvoreAVL(&(*raiz)->dir, valor))==1){
+            if(fatorBalanceamentoNO(*raiz) >= 2){
+                if(alturaNO((*raiz)->esq->dir) <= alturaNO((*raiz)->esq->esq)){
+                    rotacaoLL(raiz);
+                }else{
+                    rotacaoLR(raiz);
+                }
+            }
+        }
+    }
+
+    if((*raiz)->info == valor){
+        if(((*raiz)->esq==NULL || (*raiz)->dir==NULL)){
+            struct NO *oldNode = (*raiz);
+            if((*raiz)->esq != NULL){
+                *raiz = (*raiz)->esq;
+            }else{
+                *raiz = (*raiz)->dir;
+            }
+            free(oldNode);
+        }else{
+            struct NO* temp = procuraMenor((*raiz)->dir);
+            (*raiz)->info = temp->info;
+            removeArvoreAVL(&(*raiz)->dir, (*raiz)->info);
+            if(fatorBalanceamentoNO(*raiz) >= 2){
+                if(alturaNO((*raiz)->esq->dir) <= alturaNO((*raiz)->esq->esq)){
+                    rotacaoLL(raiz);
+                }else{
+                    rotacaoLR(raiz);
+                }
+            }
+        }
+        return 1;
+    }
+    return res;
+}
+
+struct NO* procuraMenor(struct NO* atual){
+    struct NO *no1 = atual;
+    struct NO *no2 = atual->esq;
+    while (no2 != NULL)
+    {
+        no1 = no2;
+        no2 = no2->esq;
+    }
+    return no1;
+}
+
+void imprimir(struct NO *raiz, int nivel){
+    int i;
+    if(raiz){
+        imprimir(raiz->dir, nivel + 1);
+        printf("\n\n");
+
+        for (i = 0; i < nivel; i++)
+        {
+            printf("\t");
+        }
+        printf("%d", raiz->info);
+        imprimir(raiz->esq, nivel + 1);
+        
+    }
+}
+
 int main(){
-    ArvoreAVL* raiz;
-    int x = insereArvoreAVL(raiz,valor);
+    int opcao, valor;
+    struct NO *raiz = NULL;
+
+    do{
+        printf("\n\n\t0 - SAir\n\t1 - INSERIR\n\t2 - Remover\n\t3 - IMPRIMIR\n\t 4 - BUSCAR\n\n");
+        scanf("%d", &opcao);
+
+        switch (opcao)
+        {
+        case 0:
+            printf("SAINDO!!");
+            break;
+        
+        default:
+            break;
+        }
+    }while (opcao != 0);
+    
+    return 0;
 }
