@@ -11,6 +11,11 @@ typedef struct NO{
     short altura;
 }NO;
 
+/*
+    Função que cria um novo nó
+    x -> valor a ser inserido no nó
+    Retorna: o endereço do nó criado
+*/
 NO* novoNO(int x){
     NO *novo = malloc(sizeof(NO));
 
@@ -25,10 +30,16 @@ NO* novoNO(int x){
     return novo;
 }
 
+
+/*
+    Retorna o maior dentre dois valores
+    a, b -> altura de dois nós da arvore
+*/
 short maior(short a, short b){
     return (a > b)? a: b;
 }
 
+// Retorna a altura de um nó ou -1 caso ele seja null
 short alturaDoNo(NO *no){
     if(no == NULL){
         return -1;
@@ -37,6 +48,9 @@ short alturaDoNo(NO *no){
     }
 }
 
+/*
+    Calcula e retorna o fator de balanceamento de um nó
+*/
 short fatorBalanceamento(NO *no){
     if(no){
         return (alturaDoNo(no->esq) - alturaDoNo(no->dir));
@@ -103,6 +117,10 @@ void verificarBalanceamento(NO *raiz){
     printf("\n");
 }
 
+/*
+    Função para realizar o balanceamento da arvore apos uma inserção ou remoção
+    Recebe o nó que esta desbalanceado e retorna a nova raiz apos o balanceamento
+*/
 NO* balancear(NO *raiz){
 	if(raiz == NULL) return raiz;
 	
@@ -113,7 +131,7 @@ NO* balancear(NO *raiz){
         printf("\n=== NO DESBALANCEADO ENCONTRADO: %d (FB = %d) ===\n", raiz->valor, fb);
     }
 
-    if(fb < -1 && fatorBalanceamento(raiz->dir) <= 0){
+    if(fb < -1 && fatorBalanceamento(raiz->dir) <= 0){ // fb raiz for menor que -1 e fb filho dir for menor ou igual a 0
         printf("Caso: Rotacao simples a esquerda (Direita-Direita)\n");
         raiz = rotacaoEsq(raiz);
     }else if(fb > 1 && fatorBalanceamento(raiz->esq) >= 0){
@@ -136,7 +154,12 @@ NO* balancear(NO *raiz){
 
 
 
-
+/*
+    Insere um novo nó na arvore
+    raiz -> raiz da arvore
+    x -> valor a ser inserido
+    Retorno: endereço do novo nó ou nova raiz apos o balanceamento
+*/
 NO* inserir(NO *raiz, int x){
     if(raiz == NULL){
         printf("Inserindo novo no: %d\n", x);
@@ -159,10 +182,12 @@ NO* inserir(NO *raiz, int x){
      // Verificar balanceamento antes de balancear
     verificarBalanceamento(raiz);
 
+    // verifica a necessidade de rebalancear a arvore
     raiz = balancear(raiz);
 
     return raiz;
 }
+
 
 NO* remover(NO *raiz, int chave){
     if(raiz == NULL){
